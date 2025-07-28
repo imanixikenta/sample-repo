@@ -1,0 +1,76 @@
+'20240527今西健太追加、ラベル印刷枚数選択ドロップダウンリストを追加。選ばなければ、2枚を選択。
+
+Sub テスト()
+    ' ワークシートを取得
+    Dim Ws As Worksheet
+    Set Ws = ActiveSheet
+    
+    ' ユーザーに確認メッセージを表示
+    Dim answer As Integer
+    answer = MsgBox("登録内容に間違いはありません？", vbYesNo + vbQuestion, "確認")
+    
+    ' ユーザーが"Yes"を選択した場合の処理
+    If answer = vbYes Then
+        ' 現在のプリンターを保存し、特定のプリンターをアクティブにする
+        Dim currentPrinter As String
+        currentPrinter = ActivePrinter
+        ActivePrinter = "\\jnbrmes04\TEC B-SA4T-JP(巻き取り)1cut on Ne02:"
+        'ActivePrinter = "\\jnbrmes04\TEC B-SA4T-JP(巻き取り)1cut on Ne14:"
+        'ActivePrinter = "\\jnbrmes04\TEC B-SA4T-JP(巻き取り)1cut on Ne14:"
+        
+        ' エクセルのプルダウンから数字を取得する
+        Dim printCount As Integer
+        If IsNumeric(Ws.Range("C17").Value) Then
+            printCount = Ws.Range("C17").Value
+        End If
+        
+        ' 指定された枚数だけ印刷を実行
+        Ws.PrintOut copies:=printCount, preview:=False
+        
+        ' 元のプリンターを再びアクティブにする
+        'ActivePrinter = "Brother HL-L5200DW series Printer on Ne01:"
+        ActivePrinter = currentPrinter
+
+    End If
+End Sub
+
+
+'20240527今西健太追加、ラベル印刷枚数選択ドロップダウンリストを追加。選ばなければ、2枚を選択。
+
+Sub テスト()
+    ' ワークシートを取得
+    Dim Ws As Worksheet
+    Set Ws = ActiveSheet
+    
+    ' ユーザーに確認メッセージを表示
+    Dim answer As Integer
+    answer = MsgBox("登録内容に間違いはありません？", vbYesNo + vbQuestion, "確認")
+    
+    ' ユーザーが"Yes"を選択した場合の処理
+    If answer = vbYes Then
+        ' 現在のプリンターと印刷設定を保存
+        Dim currentPrinter As String
+        Dim currentPrintPreview As Boolean
+        currentPrinter = ActivePrinter
+        currentPrintPreview = Application.PrintPreview
+        
+        ' 特定のプリンターをアクティブにする
+        ActivePrinter = "\\jnbrmes04\TEC B-SA4T-JP(巻き取り)1cut on Ne02:"
+        'ActivePrinter = "\\jnbrmes04\TEC B-SA4T-JP(巻き取り)1cut on Ne14:"
+        'ActivePrinter = "\\jnbrmes04\TEC B-SA4T-JP(巻き取り)1cut on Ne14:"
+        
+        ' エクセルのプルダウンから数字を取得する
+        Dim printCount As Integer
+        If IsNumeric(Ws.Range("C17").Value) Then
+            printCount = Ws.Range("C17").Value
+        End If
+        
+        ' 指定された枚数だけ印刷を実行
+        Ws.PrintOut copies:=printCount, preview:=False
+        
+        ' 元のプリンターと印刷プレビュー設定を復元
+        ActivePrinter = currentPrinter
+        Application.PrintPreview = currentPrintPreview
+
+    End If
+End Sub
